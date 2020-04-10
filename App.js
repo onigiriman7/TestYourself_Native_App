@@ -6,34 +6,41 @@ import {
   StyleSheet,
   Modal,
   TouchableHighlight,
+  FlatList
 } from "react-native";
 import { Appbar, Button as Button2, DataTable } from "react-native-paper";
 import { BottomNavigation } from "react-native-material-ui";
 const testList = [];
+
 const teachersApi = [
   {
     key: 1,
     name: "Test A",
+    marks: 10,
     selected: false,
   },
   {
     key: 2,
     name: "Test B",
+    marks: 10,
     selected: false,
   },
   {
     key: 3,
     name: "Test C",
+    marks: 10,
     selected: false,
   },
   {
     key: 4,
     name: "Test D",
+    marks: 10,
     selected: false,
   },
   {
     key: 5,
     name: "Test E",
+    marks: 10,
     selected: false,
   },
 ];
@@ -66,35 +73,11 @@ export default function App() {
 const Home = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const testListMap = teachersApi.map((test) => {
-    // if (test.selected === true) {
-    //   return (
-    //     <View>
-    //       <Text>Hello</Text>
-    //     </View>
-    //   );
-    // }
+ 
     return (
       <View style={{ top: "20%" }}>
         <Text style={{ textAlign: "center", marginTop: 30 }}>{test.name}</Text>
-        <Modal animationType="none" transparent={true} visible={modalVisible}>
-          <View
-            style={{
-              height: 200,
-              width: "100%",
-              backgroundColor: "ghostwhite",
-              top: "30%",
-            }}
-          >
-            <Text style={{ textAlign: "center" }}>{test.name}</Text>
-            <TouchableHighlight
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <Button2 mode="contained">Hide Modal</Button2>
-            </TouchableHighlight>
-          </View>
-        </Modal>
+       
 
         <Button2
           style={{ width: 250, left: "16%", backgroundColor: "#4F94CD" }}
@@ -113,41 +96,33 @@ const Home = (props) => {
 
   return (
     <View>
+      {testListMap}
       <Appbar style={styles.bottom}>
         <Appbar.Content title="Home"></Appbar.Content>
       </Appbar>
-      {testListMap}
+      
     </View>
   );
 };
 
-const Tests = (props) => {
-  const selectedTestList = props.tests.map((test) => (
-    <DataTable style={{ position: "absolute", marginTop: 150 }}>
-      <DataTable.Header>
-        <DataTable.Title>Tests</DataTable.Title>
-        <DataTable.Title numeric>Marks</DataTable.Title>
-        <DataTable.Title numeric>Time</DataTable.Title>
-      </DataTable.Header>
+//THIS IS THE COMPONENT THAT PAVAN HAS TO DEAL WITH
+const TakeTest = props => {
+ 
+  
+  return(
+    <View>
+      <Text>Hello</Text>
+     
+    </View>
+  )
+}
+//IGNORE EVERYTHING BELOW THIS COMMENT 
 
-      <DataTable.Row>
-        <DataTable.Cell>{test}</DataTable.Cell>
-        <DataTable.Cell numeric>159</DataTable.Cell>
-        <DataTable.Cell numeric>6.0</DataTable.Cell>
-      </DataTable.Row>
 
-      <DataTable.Pagination
-        page={1}
-        numberOfPages={3}
-        onPageChange={(page) => {
-          console.log(page);
-        }}
-        label="1-2 of 6"
-      />
-    </DataTable>
-  ));
-  return (
-    <View style={{ marginTop: 22 }}>
+const ViewTest = props =>{
+ 
+  return(
+    <>
       <Appbar
         style={{
           position: "absolute",
@@ -169,7 +144,43 @@ const Tests = (props) => {
       >
         Current Tests
       </Text>
-      {selectedTestList}
+      <DataTable style={{ position: "absolute", marginTop: 150 }}>
+      <DataTable.Header>
+        <DataTable.Title>Tests</DataTable.Title>
+        <DataTable.Title numeric>Marks</DataTable.Title>
+        <DataTable.Title numeric>Time</DataTable.Title>
+      </DataTable.Header>
+      {props.stlist}
+      </DataTable> 
+      </>
+  )
+}
+const Tests = (props) => {
+  const [showTakeTest, setShowTakeTest] = useState(false);
+  const bookmarkedTests = props.tests;
+  const selectedTestList = props.tests.map((test) => (
+   
+    
+
+      <DataTable.Row>
+        <DataTable.Cell>{test}</DataTable.Cell>
+    <DataTable.Cell numeric>10</DataTable.Cell>
+        <DataTable.Cell numeric>20s</DataTable.Cell>
+      </DataTable.Row>
+
+      
+  
+    
+  ));
+ 
+  return (
+   <View style={{ marginTop: 22 }}>
+      {showTakeTest? 
+      <TakeTest tests={bookmarkedTests}/>
+      :
+      <ViewTest stlist={selectedTestList}/>
+      }
+      <Button onPress={()=>{setShowTakeTest(!showTakeTest);}} title={showTakeTest?"End Test":"Take Test"}/>
     </View>
   );
 };
