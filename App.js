@@ -6,10 +6,12 @@ import {
   StyleSheet,
   Modal,
   TouchableHighlight,
-  FlatList
+  FlatList,
+  ScrollView,
 } from "react-native";
 import { Appbar, Button as Button2, DataTable } from "react-native-paper";
 import { BottomNavigation } from "react-native-material-ui";
+import Quiz from "./components/Quiz";
 const testList = [];
 
 const teachersApi = [
@@ -73,11 +75,9 @@ export default function App() {
 const Home = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const testListMap = teachersApi.map((test) => {
- 
     return (
       <View style={{ top: "20%" }}>
         <Text style={{ textAlign: "center", marginTop: 30 }}>{test.name}</Text>
-       
 
         <Button2
           style={{ width: 250, left: "16%", backgroundColor: "#4F94CD" }}
@@ -100,87 +100,84 @@ const Home = (props) => {
       <Appbar style={styles.bottom}>
         <Appbar.Content title="Home"></Appbar.Content>
       </Appbar>
-      
     </View>
   );
 };
 
 //THIS IS THE COMPONENT THAT PAVAN HAS TO DEAL WITH
-const TakeTest = props => {
- 
-  
-  return(
+const TakeTest = (props) => {
+  return (
     <View>
-      <Text>Hello</Text>
-     
+      <Quiz />
     </View>
-  )
-}
-//IGNORE EVERYTHING BELOW THIS COMMENT 
+  );
+};
+//IGNORE EVERYTHING BELOW THIS COMMENT
 
-
-const ViewTest = props =>{
- 
-  return(
-    <>
-      <Appbar
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: "10%",
-          backgroundColor: "black",
-        }}
-      >
-        <Appbar.Content title="Tests"></Appbar.Content>
-      </Appbar>
-      <Text
-        style={{
-          position: "absolute",
-          marginTop: 70,
-          fontSize: 35,
-          left: "18%",
-        }}
-      >
-        Current Tests
-      </Text>
-      <DataTable style={{ position: "absolute", marginTop: 150 }}>
-      <DataTable.Header>
-        <DataTable.Title>Tests</DataTable.Title>
-        <DataTable.Title numeric>Marks</DataTable.Title>
-        <DataTable.Title numeric>Time</DataTable.Title>
-      </DataTable.Header>
-      {props.stlist}
-      </DataTable> 
-      </>
-  )
-}
+const ViewTest = (props) => {
+  return (
+    <View style={{ marginTop: 22 }}>
+      <ScrollView>
+        <Text
+          style={{
+            position: "absolute",
+            marginTop: 70,
+            fontSize: 35,
+            left: "21%",
+          }}
+        >
+          Current Tests
+        </Text>
+        <DataTable style={{ position: "absolute", marginTop: 130 }}>
+          <DataTable.Header>
+            <DataTable.Title>Tests</DataTable.Title>
+            <DataTable.Title numeric>Marks</DataTable.Title>
+            <DataTable.Title numeric>Time</DataTable.Title>
+          </DataTable.Header>
+          {props.stlist}
+        </DataTable>
+        <Text style={{ fontSize: 96, color: "transparent" }}>SRCOLLL ME</Text>
+        <Text style={{ fontSize: 96, color: "transparent" }}>SRCOLLL ME</Text>
+        <Text style={{ fontSize: 96, color: "transparent" }}>SRCOLLL ME</Text>
+        <Text style={{ fontSize: 96, color: "transparent" }}>SRCOLLL ME</Text>
+      </ScrollView>
+    </View>
+  );
+};
 const Tests = (props) => {
   const [showTakeTest, setShowTakeTest] = useState(false);
   const bookmarkedTests = props.tests;
   const selectedTestList = props.tests.map((test) => (
-   
-    
-
-      <DataTable.Row>
-        <DataTable.Cell>{test}</DataTable.Cell>
-    <DataTable.Cell numeric>10</DataTable.Cell>
-        <DataTable.Cell numeric>20s</DataTable.Cell>
-      </DataTable.Row>
-
-      
-  
-    
+    <DataTable.Row>
+      <DataTable.Cell>{test}</DataTable.Cell>
+      <DataTable.Cell numeric>10</DataTable.Cell>
+      <DataTable.Cell numeric>20s</DataTable.Cell>
+    </DataTable.Row>
   ));
- 
+
   return (
-   <View style={{ marginTop: 22 }}>
-      {showTakeTest? 
-      <TakeTest tests={bookmarkedTests}/>
-      :
-      <ViewTest stlist={selectedTestList}/>
-      }
-      <Button onPress={()=>{setShowTakeTest(!showTakeTest);}} title={showTakeTest?"End Test":"Take Test"}/>
+    <View>
+      {showTakeTest ? (
+        <TakeTest tests={bookmarkedTests} />
+      ) : (
+        <ViewTest stlist={selectedTestList} />
+      )}
+      <Button2
+        style={{
+          position: "absolute",
+          left: "22%",
+          right: 0,
+          top: 35,
+          width: 200,
+          backgroundColor: "#00c400",
+        }}
+        mode="contained"
+        onPress={() => {
+          setShowTakeTest(!showTakeTest);
+        }}
+      >
+        {showTakeTest ? "End Test" : "Take Test"}
+      </Button2>
     </View>
   );
 };
@@ -200,6 +197,16 @@ const Settings = () => {
       >
         <Appbar.Content title="Settings"></Appbar.Content>
       </Appbar>
+      <Text
+        style={{
+          fontSize: 60,
+          textAlign: "center",
+          top: 200,
+          fontStyle: "italic",
+        }}
+      >
+        TO BE UPDATED...
+      </Text>
     </View>
   );
 };
